@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto"; 
+
+service CategoryService {
+    rpc CreateCategory(CategoryRequest) returns (ID) {}
+    rpc GetCategories(PaginationRequest) returns (CategoryResponseList) {}
+    rpc GetCategory(ID) returns (CategoryResponse) {}
+    rpc UpdateCategory(UpdateCategoryRequest) returns (ID) {}
+    rpc DeleteCategory(ID) returns (Empty) {}
+    rpc SearchCategory(SearchRequest) returns (CategoryResponseList) {}
+}
+
+service ProductService {
+    rpc CreateProduct(ProductRequest) returns (ID) {} 
+    rpc GetProducts(PaginationRequest) returns (ProductResponseList) {}
+    rpc GetProduct(ID) returns (ProductResponse) {}
+    rpc UpdateProduct(UpdateProductRequest) returns (ID) {}
+    rpc DeleteProduct(ID) returns (Empty) {}
+    rpc SearchProduct(SearchRequest) returns (ProductResponseList) {}
+}
+
+service OrderService {
+    rpc CreateOrder(OrderRequest) returns (ID) {}
+    rpc GetOrdersByUser(ID) returns (OrderResponseList) {}
+    rpc GetOrder(ID) returns (OrderResponse) {}
+    rpc SearchOrder(SearchRequest) returns (OrderResponseList) {}
+}
+
+message Empty {}
+
+message ID {
+    string _id = 1;
+}
+
+message CategoryRequest {
+    string name = 1;
+}
+
+message CategoryResponse {
+    string _id = 1;
+    string name = 2;
+}
+
+message CategoryResponseList {
+    repeated CategoryResponse categories = 1;
+}
+
+message PaginationRequest {
+    int32 page = 1;
+    int32 limit = 2;
+}
+
+message UpdateCategoryRequest {
+    string _id = 1;
+    CategoryRequest request_body = 2;
+}
+
+message SearchRequest {
+    string query = 1;
+}
+
+message ProductRequest {
+    string name = 1;
+    CategoryRequest category = 2;
+    float price = 3;
+    int32 quanitiy = 4;
+}
+
+message ProductResponse {
+    string _id = 1;
+    string name = 2;
+    string category = 3;
+    float price = 4;
+    int32 quanitiy = 5;
+}
+
+message ProductResponseList {
+    repeated ProductResponse products = 1;
+}
+
+message UpdateProductRequest {
+    string _id = 1;
+    ProductRequest request_body = 2;
+}
+
+message Address {
+    string street = 1;
+    string city = 2;
+    string state = 3;
+    string country = 4;
+    string zip_code = 5;
+}
+
+message OrderRequest {
+    ProductResponseList products = 1;
+    Address shipping_address = 2;
+    google.protobuf.Timestamp created_at = 3;
+    string created_by = 4;
+    float total_price = 5;
+    string order_status = 6;
+}
+
+message OrderResponse {
+    string _id = 1;
+    ProductResponseList products = 2;
+    Address shipping_address = 3;
+    string created_at = 4;
+    string created_by = 5;
+    google.protobuf.Timestamp order_date = 6;
+    float total_price = 7;
+    string order_status = 8;
+}
+
+message OrderResponseList {
+    repeated OrderResponse orders = 1;
+}
+
+message GetOrdersByUserRequest {
+    string username = 1;
+    int32 page = 2;
+    int32 limit = 3;
+}
+

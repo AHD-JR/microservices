@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-dotenv
+pymongo
+cloudinary
+grpcio
+grpcio-tools
+pytz
